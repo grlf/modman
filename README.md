@@ -33,13 +33,13 @@ with the authors and do not provide support for the PHP port, only a link here f
 ## Installation
 
 ```
-bash < <(wget -q --no-check-certificate -O - https://raw.github.com/colinmollenhour/modman/master/modman-installer)
+bash < <(wget -q --no-check-certificate -O - https://raw.github.com/grlf/modman/master/modman-installer)
 ```
 
 or
 
 ```
-bash < <(curl -s -L https://raw.github.com/colinmollenhour/modman/master/modman-installer)
+bash < <(curl -s -L https://raw.github.com/grlf/modman/master/modman-installer)
 ```
 
 ```
@@ -53,7 +53,7 @@ and change its mode to executable.
 
 Run `modman --help` to get the basic usage summary or `modman --tutorial` to
 see a brief tutorial. For more in-depth information please see the
-[Modman Wiki](https://github.com/colinmollenhour/modman/wiki)
+[Modman Wiki](https://github.com/grlf/modman/wiki)
 
 ## Version Control Systems
 
@@ -65,8 +65,8 @@ the "deploy" command.
 
 * Colin Mollenhour
 * http://colin.mollenhour.com/
-* [@colinmollenhour](https://twitter.com/colinmollenhour)
-* [Follow me on github!](https://github.com/colinmollenhour)
+* [@grlf](https://twitter.com/grlf)
+* [Follow me on github!](https://github.com/grlf)
 
 ## License
 

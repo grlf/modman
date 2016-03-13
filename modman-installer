@@ -12,7 +12,7 @@ if [ ! -d "$HOME/bin" ] ; then
     fi
 fi
 
-SRC="https://raw.githubusercontent.com/colinmollenhour/modman/master/modman"
+SRC="https://raw.githubusercontent.com/grlf/modman/master/modman"
 DEST="$HOME/bin/modman"
 
 # test if curl/wget is installed
