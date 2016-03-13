@@ -573,6 +573,7 @@ apply_path ()
       return 1
     elif ! [ -L "$dest" ] || [ "$src" != "$(readlink "$dest")" ]; then
       warning "Removing conflicting $($stat_type "$dest"): $dest"
+      chmod ug+w -R "$dest"
       rm -rf "$dest" || return 1
     fi
   fi
