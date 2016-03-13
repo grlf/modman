@@ -594,6 +594,7 @@ apply_path ()
     if [ $COPY -eq 1 ]; then
       verb='copy'
       cp -R "$src" "$dest" && success=1
+      chmod a+rX,a-w -R "$dest"
     else
       verb='create symlink'
       ln -s "$src" "$dest" && success=1
