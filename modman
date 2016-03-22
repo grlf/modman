@@ -573,7 +573,6 @@ apply_path ()
       return 1
     elif ! [ -L "$dest" ] || [ "$src" != "$(readlink "$dest")" ]; then
       warning "Removing conflicting $($stat_type "$dest"): $dest"
-      chmod ug+w -R "$dest" --quiet
       rm -rf "$dest" || return 1
     fi
   fi
@@ -594,9 +593,7 @@ apply_path ()
     success=0
     if [ $COPY -eq 1 ]; then
       verb='copy'
-      chmod u+w -R "$dest" --quiet
       cp -R "$src" "$dest" && success=1
-      chmod a+rX,a-w -R "$dest" --quiet
     else
       verb='create symlink'
       ln -s "$src" "$dest" && success=1
