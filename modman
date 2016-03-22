@@ -573,7 +573,7 @@ apply_path ()
       return 1
     elif ! [ -L "$dest" ] || [ "$src" != "$(readlink "$dest")" ]; then
       warning "Removing conflicting $($stat_type "$dest"): $dest"
-      chmod ug+w -R "$dest"
+      chmod ug+w -R "$dest" --quiet
       rm -rf "$dest" || return 1
     fi
   fi
@@ -594,8 +594,9 @@ apply_path ()
     success=0
     if [ $COPY -eq 1 ]; then
       verb='copy'
+      chmod u+w -R "$dest" --quiet
       cp -R "$src" "$dest" && success=1
-      chmod a+rX,a-w -R "$dest"
+      chmod a+rX,a-w -R "$dest" --quiet
     else
       verb='create symlink'
       ln -s "$src" "$dest" && success=1
@@ -865,6 +866,39 @@ elif [ "$action" = "deploy-all" ]; then
     fi
   done
   echo "Deployed all modules with $errors errors."
+  if [ $errors -gt 0 ]; then
+    exit 1
+  else
+    exit 0
+  fi
+
+  ###############################
+# Handle "undeploy-all" command
+# 
+#     require_wc "$module" || exit 1
+    remove_module_links "$module" || exit 1
+elif [ "$action" = "undeploy-all" ]; then
+  if [ -n "$1" ]; then echo "Too many arguments to undeploy-all command."; exit 1; fi
+  remove_dead_links
+  errors=0
+  for module in $(ls -1 "$mm"); do
+    test -d "$mm/$module" && require_wc "$module" || continue;
+    if get_skipped "$module"; then
+      echo "Skipping module $module due to .modman-skip file."
+      continue
+    fi
+    echo "Undeploying $module"
+    if remove_module_links "$module"; then
+      echo -e "Undeployment of '$module' complete.\n"
+      if [ $NOLOCAL -eq 0 -a -r "$mm/$module/modman.local" ]; then
+        remove_module_links "$mm/$module/modman.local" && echo "Applied local modman file for $module"
+      fi
+    else
+      error "Error occurred while deploying '$module'.\n"
+      errors=$((errors+1))
+    fi
+  done
+  echo "Undeployed all modules with $errors errors."
   if [ $errors -gt 0 ]; then
     exit 1
   else
